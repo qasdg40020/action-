@@ -1,0 +1,25 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  pyinstaller-build:
+    runs-on: windows-latest #<windows-latest / ubuntu-latest / ..... etc>选择Windows电脑虚拟机
+    steps:
+      - name: Create Executable
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.12'
+          spec: 'print.py' #选择github仓库中你建立的py文件
+          upload_exe_with_name: 'My APP' #打包出来压缩包的名字
+          options: --onefile #打包出一个可执行文件
