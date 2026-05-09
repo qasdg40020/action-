@@ -1,0 +1,28 @@
+name: Create Release
+
+on:
+  push :
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest #<windows-latest / ubuntu-latest / ..... etc>选择Windows电脑虚拟机
+    steps:
+      - name: Create Executable
+        id: create_executable
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.12'
+          spec: 'test.py' #选择github仓库中你建立的py文件
+          upload_exe_with_name: 'My APP' #打包出来压缩包的名字
+          options: --onefile #打包出一个可执行文件
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref,'refs/tags/')
+        with:
+          files: ./dist/**
+      
